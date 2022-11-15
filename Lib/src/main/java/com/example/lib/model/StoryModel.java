@@ -5,6 +5,7 @@ import android.icu.lang.UProperty;
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class StoryModel implements Serializable {
     private String image;
@@ -28,6 +29,16 @@ public class StoryModel implements Serializable {
     private String status;
 
     private String createDate;
+
+    private List<String> categoryName;
+
+    public List<String> getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(List<String> categoryName) {
+        this.categoryName = categoryName;
+    }
 
     public String getImage ()
     {
@@ -138,6 +149,7 @@ public class StoryModel implements Serializable {
     {
         this.createDate = createDate;
     }
+
 
     @Override
     public String toString()

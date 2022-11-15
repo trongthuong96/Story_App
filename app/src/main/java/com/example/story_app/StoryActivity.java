@@ -66,7 +66,7 @@ public class StoryActivity extends AppCompatActivity {
         id = model.getId();
         txtNameStoryDetail.setText(model.getName());
         txtAuthorDetail.setText(model.getAuthorName());
-        txtCateStoryDetail.setText(model.getCreateDate());
+        txtCateStoryDetail.setText(model.getCategoryName().get(0));
         txtStatusDetail.setText(model.getStatus());
         txtSummaryDetail.setText(Html.fromHtml(model.getDescription(), HtmlCompat.FROM_HTML_MODE_LEGACY));
         Glide.with(this).load(model.getImage()).into(imgStoryDetail);
@@ -91,7 +91,7 @@ public class StoryActivity extends AppCompatActivity {
         finish();
     }
 
-   /* // go to list chapter
+    // go to list chapter
     public void goToChapter(View view) {
         //model into detail story
         Intent intent = new Intent(this, ChapterActivity.class);
@@ -99,6 +99,7 @@ public class StoryActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+/*
     //read chapter from button readStory
     public void goToChapterDetail(View view) {
         GetChapter();

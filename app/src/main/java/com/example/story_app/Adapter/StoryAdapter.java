@@ -52,7 +52,7 @@ public class StoryAdapter extends ArrayAdapter<StoryModel> {
             //add view
             StoryModel model = getItem(position);
             nameStory.setText(model.getName());
-            nameCagory.setText(model.getUpdateDate().toString());
+            nameCagory.setText(model.getCategoryName().get(0));
             Glide.with(this.context).load(model.getImage()).into(imageView);
         }
         return view;
