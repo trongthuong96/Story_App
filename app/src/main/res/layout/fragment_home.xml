@@ -80,7 +80,7 @@
                 android:id="@+id/NameGridview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Truyện nhiều lượt xem"
+                android:text=" Tất cả các truyện"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 

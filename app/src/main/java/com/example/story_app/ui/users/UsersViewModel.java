@@ -10,7 +10,7 @@ public class UsersViewModel extends ViewModel {
 
     public UsersViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("Thông tin tài khoản:");
     }
 
     public LiveData<String> getText() {

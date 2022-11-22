@@ -2,13 +2,17 @@ package com.example.story_app;
 
 import static com.example.lib.RetrofitClient.getRetrofit;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -16,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,7 +29,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.lib.interfaceRepository.Methods;
+import com.example.lib.model.ChapterModel;
 import com.example.lib.model.StoryModel;
+import com.example.lib.model.TickModel;
+import com.example.story_app.Session.SessionUser;
 
 import java.util.List;
 
@@ -41,8 +49,12 @@ public class StoryActivity extends AppCompatActivity {
     TextView txtStatusDetail;
     TextView txtSummaryDetail;
     RelativeLayout relativeBackground;
+    Button btnTick;
     String id;
     StoryModel model;
+
+    //tick
+    TickModel tickModel;
 
     //key save chapter
     SharedPreferences sharedPref;
@@ -59,10 +71,13 @@ public class StoryActivity extends AppCompatActivity {
         txtStatusDetail = findViewById(R.id.txtStatusDetail);
         txtSummaryDetail = findViewById(R.id.txtSummaryDetail);
         relativeBackground = findViewById(R.id.relativeBackground);
+        btnTick = findViewById(R.id.btnTick);
 
+        //story
         Intent intent = getIntent();
         model = (StoryModel) intent.getSerializableExtra("model");
 
+        //story
         id = model.getId();
         txtNameStoryDetail.setText(model.getName());
         txtAuthorDetail.setText(model.getAuthorName());
@@ -85,6 +100,9 @@ public class StoryActivity extends AppCompatActivity {
 
                     }
                 });
+        //tick
+        tickModel = new TickModel(new SessionUser(getApplicationContext()).GetIdUser(), model.getId());
+        GetExistTick(tickModel.getUserId(), tickModel.getStoryId());
     }
 
     public void goToBackHome(View view) {
@@ -99,7 +117,27 @@ public class StoryActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-/*
+    // check exist tick
+    private void GetExistTick(String userId, String storyId){
+
+        Methods methods = getRetrofit().create(Methods.class);
+        Call<TickModel> call = methods.getExistTick(userId, storyId);
+        call.enqueue(new Callback<TickModel>() {
+            @Override
+            public void onResponse(Call<TickModel> call, Response<TickModel> response) {
+                if(response.code() == 200){
+                    btnTick.setText("Đã đánh dấu");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TickModel> call, Throwable t) {
+                t.toString();
+            }
+        });
+    }
+
+
     //read chapter from button readStory
     public void goToChapterDetail(View view) {
         GetChapter();
@@ -123,7 +161,7 @@ public class StoryActivity extends AppCompatActivity {
                 // find chater read
                 if(chapterNumber == -1){
                     try {
-                        Intent intent = new Intent(StoryDetailActivity.this, ChapterDetailActivity.class);
+                        Intent intent = new Intent(StoryActivity.this, ChapterDetailActivity.class);
                         intent.putExtra("model",  response.body().get(0));
                         //save key chapter off
                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -135,12 +173,12 @@ public class StoryActivity extends AppCompatActivity {
                     ChapterModel chapterModel = null;
 
                     for (ChapterModel item: response.body()){
-                        if(chapterNumber == item.getChapterNumber()){
+                        if(chapterNumber == item.getNumberChapter()){
                             chapterModel = item;
                             break;
                         }
                     }
-                    Intent intent = new Intent(StoryDetailActivity.this, ChapterDetailActivity.class);
+                    Intent intent = new Intent(StoryActivity.this, ChapterDetailActivity.class);
                     intent.putExtra("model",  chapterModel);
                     startActivity(intent);
                 }
@@ -152,5 +190,81 @@ public class StoryActivity extends AppCompatActivity {
             }
         });
 
-    }*/
+    }
+
+    //button tick
+    public void setTick(View view) {
+        if(new SessionUser(getApplicationContext()).GetIdUser() != null){
+            if(btnTick.getText().equals("Đánh dấu")){
+                Methods methods = getRetrofit().create(Methods.class);
+                Call<TickModel> call = methods.postTick(tickModel);
+                call.enqueue(new Callback<TickModel>() {
+                    @Override
+                    public void onResponse(Call<TickModel> call, Response<TickModel> response) {
+                        if(response.code() == 200){
+                            btnTick.setText("Đã đánh dấu");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TickModel> call, Throwable t) {
+
+                    }
+                });
+            }else {
+                Methods methods = getRetrofit().create(Methods.class);
+                Call<TickModel> call = methods.deleteTick(tickModel);
+                call.enqueue(new Callback<TickModel>() {
+                    @Override
+                    public void onResponse(Call<TickModel> call, Response<TickModel> response) {
+                        if(response.code() == 200){
+                            btnTick.setText("Đánh dấu");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TickModel> call, Throwable t) {
+
+                    }
+                });
+            }
+
+        }else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Thông báo!");
+            alert.setIcon(R.drawable.ic_baseline_info_24);
+            alert.setMessage("Đăng nhập tài khoản!");
+
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            alert.show();
+        }
+    }
+
+    // Comment
+    public void goToComment(View view) {
+        if(new SessionUser(getApplicationContext()).GetIdUser() != null)
+        {
+            Intent intent = new Intent(this, CommentActivity.class);
+            intent.putExtra("modelStory", model);
+            startActivity(intent);
+        } else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Thông báo!");
+            alert.setIcon(R.drawable.ic_baseline_info_24);
+            alert.setMessage("Đăng nhập tài khoản!");
+
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            alert.show();
+        }
+    }
 }

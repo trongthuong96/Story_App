@@ -1,6 +1,8 @@
 package com.example.story_app.ui.users;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.story_app.ChapterActivity;
+import com.example.story_app.Session.SessionUser;
 import com.example.story_app.databinding.FragmentUsersBinding;
 import com.example.story_app.ui.login.LoginActivity;
 
 public class UsersFragment extends Fragment {
 
     private FragmentUsersBinding binding;
+    private Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +46,37 @@ public class UsersFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        //button register
+        final Button buttonRegister = binding.button2;
+        final TextView textNameUser = binding.txtNameUser;
+        final Button buttonLogout = binding.btnLogout;
+
+        SessionUser sessionUser = new SessionUser(getContext());
+        if (sessionUser.isLoggedIn()){
+            buttonLogin.setVisibility(View.INVISIBLE);
+            buttonRegister.setVisibility(View.INVISIBLE);
+
+            textNameUser.setVisibility(View.VISIBLE);
+            textNameUser.setText(sessionUser.GetNameUser());
+            buttonLogout.setVisibility(View.VISIBLE);
+
+        } else {
+            buttonLogin.setVisibility(View.VISIBLE);
+            buttonRegister.setVisibility(View.VISIBLE);
+
+            textNameUser.setVisibility(View.INVISIBLE);
+            textNameUser.setText(sessionUser.GetNameUser());
+            buttonLogout.setVisibility(View.INVISIBLE);
+        }
+
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sessionUser.logoutUser();
+            }
+        });
+
 
         return root;
     }

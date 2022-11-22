@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,8 +23,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.example.lib.interfaceRepository.Methods;
 import com.example.lib.model.StoryModel;
+import com.example.lib.model.TickModel;
 import com.example.story_app.Adapter.StoryAdapter;
 import com.example.story_app.R;
+import com.example.story_app.Session.SessionUser;
 import com.example.story_app.StoryActivity;
 import com.example.story_app.databinding.FragmentHomeBinding;
 
@@ -45,6 +48,7 @@ public class HomeFragment extends Fragment {
 
     private StoryAdapter storyAdapter1;
     private GridView gdvStoryView;
+    private Button tickButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //tick
+        tickButton = root.findViewById(R.id.btnTick);
 
         //slider
         final ImageSlider imageSlider = binding.imageSlider;
@@ -110,8 +117,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<StoryModel>> call, Response<List<StoryModel>> response) {
                 list = response.body();
-                for(int i=0; i<7; i++){
-                    storyAdapter.add(list.get(i));
+                if(list.size()<=7)
+                {
+                    for(int i=0; i<list.size(); i++){
+                        storyAdapter.add(list.get(i));
+                    }
+                }else {
+                    for(int i=0; i<7; i++){
+                        storyAdapter.add(list.get(i));
+                    }
                 }
                 gdvStory.setAdapter(storyAdapter);
             }
@@ -130,8 +144,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<StoryModel>> call, Response<List<StoryModel>> response) {
                 list = response.body();
-                for(int i=0; i<6; i++){
-                    storyAdapter1.add(list.get(i));
+                if(list.size()>0)
+                {
+                    for(int i=list.size()-1; i>=0; i--){
+                        storyAdapter1.add(list.get(i));
+                    }
                 }
                 gdvStoryView.setAdapter(storyAdapter1);
             }

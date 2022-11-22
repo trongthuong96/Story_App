@@ -103,8 +103,7 @@
                                     android:onClick="goToChapterDetail"
                                     android:text="Đọc truyện"
                                     android:textColor="@color/black"
-                                    android:typeface="serif"
-                                    tools:ignore="OnClick" />
+                                    android:typeface="serif"/>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -230,6 +229,34 @@
                         android:textColor="@color/black"
                         android:text="TextView"
                         android:textSize="18dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
+
+                    <Button
+                        android:id="@+id/btnComment"
+                        android:onClick="goToComment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5"
+                        android:text="Bình luận"/>
+
+                    <Button
+                        android:id="@+id/btnTick"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:onClick="setTick"
+                        android:text="Đánh dấu"
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <TextView
