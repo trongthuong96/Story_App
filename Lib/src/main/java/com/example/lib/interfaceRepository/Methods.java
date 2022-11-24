@@ -2,6 +2,7 @@ package com.example.lib.interfaceRepository;
 
 import com.example.lib.model.CategoryModel;
 import com.example.lib.model.ChapterModel;
+import com.example.lib.model.CommentModel;
 import com.example.lib.model.StoryModel;
 import com.example.lib.model.TickModel;
 import com.example.lib.model.UserModel;
@@ -54,4 +55,8 @@ public interface Methods {
 
     @HTTP(method = "DELETE", path = "api/Story/Tick", hasBody = true)
     Call<TickModel> deleteTick(@Body TickModel model);
+
+    //comment
+    @GET("api/Comment")
+    Call<List<CommentModel>> getComments(@Query("storyId") String storyId);
 }

@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final Button loginButton = binding.btnActivitylogin;
         final ProgressBar loadingProgressBar = binding.loading;
         messageError = binding.notiError;
 

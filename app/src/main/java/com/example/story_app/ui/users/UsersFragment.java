@@ -18,6 +18,7 @@ import com.example.story_app.ChapterActivity;
 import com.example.story_app.Session.SessionUser;
 import com.example.story_app.databinding.FragmentUsersBinding;
 import com.example.story_app.ui.login.LoginActivity;
+import com.example.story_app.ui.login.RegisterActivity;
 
 public class UsersFragment extends Fragment {
 
@@ -36,7 +37,7 @@ public class UsersFragment extends Fragment {
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         //button login
-        final Button buttonLogin = binding.button;
+        final Button buttonLogin = binding.btnLogin;
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +49,16 @@ public class UsersFragment extends Fragment {
         });
 
         //button register
-        final Button buttonRegister = binding.button2;
+        final Button buttonRegister = binding.btnRegister;
+
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         final TextView textNameUser = binding.txtNameUser;
         final Button buttonLogout = binding.btnLogout;
 
