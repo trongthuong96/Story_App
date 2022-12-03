@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -80,7 +81,6 @@ public class HomeFragment extends Fragment {
         storyAdapter = new StoryAdapter(getActivity(), R.layout.item_story);
         gdvStory = binding.gdvStory;
         list = new ArrayList<>();
-        GetStoryNew();
 
         // go to story
         gdvStory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,8 +97,9 @@ public class HomeFragment extends Fragment {
         //layout view
         storyAdapter1 = new StoryAdapter(getActivity(), R.layout.item_story);
         gdvStoryView = binding.gdvStoryView;
-        list = new ArrayList<>();
-        GetStoryView();
+        gdvStoryView.setNestedScrollingEnabled(true);
+
+        GetStoryNew();
 
         // go to story
         gdvStoryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -134,22 +135,8 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 gdvStory.setAdapter(storyAdapter);
-            }
-            @Override
-            public void onFailure(Call<List<StoryModel>> call, Throwable t) {
-                System.out.println();
-            }
-        });
-    }
 
-    //view
-    public void GetStoryView(){
-        Methods methods = getRetrofit().create(Methods.class);
-        Call<List<StoryModel>> call = methods.getStory();
-        call.enqueue(new Callback<List<StoryModel>>() {
-            @Override
-            public void onResponse(Call<List<StoryModel>> call, Response<List<StoryModel>> response) {
-                list = response.body();
+                // Gridview
                 if(list.size()>0)
                 {
                     for(int i=list.size()-1; i>=0; i--){

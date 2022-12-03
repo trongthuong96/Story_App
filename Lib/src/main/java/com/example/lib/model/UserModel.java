@@ -12,6 +12,15 @@ public class UserModel implements Serializable {
     private String phoneNumber;
     private List<String> role;
 
+    public UserModel() {
+    }
+
+    public UserModel(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
     public List<String> getRole() {
         return role;
     }

@@ -1,5 +1,8 @@
 package com.example.story_app.Utility;
 
+import android.text.TextUtils;
+import android.util.Patterns;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,5 +24,11 @@ public class SD {
             e.printStackTrace();
         };
         return dateString;
+    }
+
+    // check email
+    public static boolean isValidEmail(CharSequence target) {
+        boolean check = (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+        return check;
     }
 }

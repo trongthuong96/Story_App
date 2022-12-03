@@ -60,6 +60,7 @@ public class UsersFragment extends Fragment {
         });
 
         final TextView textNameUser = binding.txtNameUser;
+        final TextView txtEmailUser = binding.txtEmailUser;
         final Button buttonLogout = binding.btnLogout;
 
         SessionUser sessionUser = new SessionUser(getContext());
@@ -68,7 +69,9 @@ public class UsersFragment extends Fragment {
             buttonRegister.setVisibility(View.INVISIBLE);
 
             textNameUser.setVisibility(View.VISIBLE);
-            textNameUser.setText(sessionUser.GetNameUser());
+            textNameUser.setText("Tên tài khoản: " + sessionUser.GetNameUser());
+            txtEmailUser.setVisibility(View.VISIBLE);
+            txtEmailUser.setText("Email: " + sessionUser.GetEmailUser());
             buttonLogout.setVisibility(View.VISIBLE);
 
         } else {
@@ -76,7 +79,7 @@ public class UsersFragment extends Fragment {
             buttonRegister.setVisibility(View.VISIBLE);
 
             textNameUser.setVisibility(View.INVISIBLE);
-            textNameUser.setText(sessionUser.GetNameUser());
+            txtEmailUser.setVisibility(View.INVISIBLE);
             buttonLogout.setVisibility(View.INVISIBLE);
         }
 

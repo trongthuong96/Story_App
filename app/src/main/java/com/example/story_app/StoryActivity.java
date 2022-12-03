@@ -247,24 +247,8 @@ public class StoryActivity extends AppCompatActivity {
 
     // Comment
     public void goToComment(View view) {
-        if(new SessionUser(getApplicationContext()).GetIdUser() != null)
-        {
-            Intent intent = new Intent(this, CommentActivity.class);
-            intent.putExtra("modelStory", model);
-            startActivity(intent);
-        } else {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Thông báo!");
-            alert.setIcon(R.drawable.ic_baseline_info_24);
-            alert.setMessage("Đăng nhập tài khoản!");
-
-            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                }
-            });
-            alert.show();
-        }
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra("modelStory", model);
+        startActivity(intent);
     }
 }

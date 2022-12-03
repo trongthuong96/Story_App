@@ -41,6 +41,8 @@ public interface Methods {
     Call<List<UserModel>> getUsers();
     @POST("api/ApplicationUser/CheckUser")
     Call<UserModel> postUser(@Body UserModel model);
+    @POST("api/ApplicationUser")
+    Call<UserModel> postOneUser(@Body UserModel model);
 
     /* ---------------------------------------------------------------------------------*/
     // tick
@@ -59,4 +61,8 @@ public interface Methods {
     //comment
     @GET("api/Comment")
     Call<List<CommentModel>> getComments(@Query("storyId") String storyId);
+    @POST("api/Comment")
+    Call<CommentModel> postComment(@Body CommentModel commentModel);
+    @DELETE("api/Comment")
+    Call<String> deleteComment(@Query("id") String id);
 }

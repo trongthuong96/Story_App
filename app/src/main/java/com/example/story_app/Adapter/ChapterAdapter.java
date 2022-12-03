@@ -8,18 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lib.model.ChapterModel;
 import com.example.story_app.R;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class ChapterAdapter extends ArrayAdapter<ChapterModel> {
 
@@ -32,34 +28,68 @@ public class ChapterAdapter extends ArrayAdapter<ChapterModel> {
         this.resource = resource;
     }
 
+    private class ViewHolderActiChap{
+        TextView txtChapterItem;
+    }
+
+    private class ViewHolderItemChap
+    {
+        TextView txtChapterNameNumber, txtChapterContent;
+    }
+
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater layoutInflater = this.context.getLayoutInflater();
-        View view = layoutInflater.inflate(this.resource, null);
+    public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
+        //viewholder
+        ViewHolderActiChap holderActiChap = null;
+        ViewHolderItemChap holderItemChap = null;
+
+        if(view == null){
+            LayoutInflater layoutInflater = this.context.getLayoutInflater();
+            view = layoutInflater.inflate(this.resource, null);
+
+            if(this.resource == R.layout.item_chapter_activity_chapter) {
+                //khai bao
+                holderActiChap = new ViewHolderActiChap();
+                holderActiChap.txtChapterItem = view.findViewById(R.id.txtChapterItem);
+
+                //set hol
+                view.setTag(holderActiChap);
+            }else if (this.resource == R.layout.item_chapter_acitivity_chapter_detail){
+                holderItemChap = new ViewHolderItemChap();
+
+                holderItemChap.txtChapterNameNumber = view.findViewById(R.id.txtChapterNameNumber);
+                holderItemChap.txtChapterContent = view.findViewById(R.id.txtChapterContent);
+
+                //
+                view.setTag(holderItemChap);
+            }
+        }else {
+            if(this.resource == R.layout.item_chapter_activity_chapter){
+                holderActiChap = (ViewHolderActiChap) view.getTag();
+            }else if (this.resource == R.layout.item_chapter_acitivity_chapter_detail){
+                holderItemChap = (ViewHolderItemChap) view.getTag();
+            }
+        }
+
 
         ChapterModel model = getItem(position);
 
         if(this.resource == R.layout.item_chapter_activity_chapter){
-            //khai bao
-            TextView txtChapterItem = view.findViewById(R.id.txtChapterItem);
 
             //gan gia tri
-            txtChapterItem.setText("Chương "+ model.getNumberChapter() + ": " + model.getName());
+            holderActiChap.txtChapterItem.setText("Chương "+ model.getNumberChapter() + ": " + model.getName());
 
             //chapter of story read
             SharedPreferences sharedPref = this.context.getSharedPreferences("ChapterSave", context.MODE_PRIVATE);
             int chapterNumber = sharedPref.getInt(model.getStoryId(),-1);
             if(chapterNumber == model.getNumberChapter()){
-                txtChapterItem.setTypeface(Typeface.DEFAULT_BOLD);
+                holderActiChap.txtChapterItem.setTypeface(Typeface.DEFAULT_BOLD);
             }
         }else if (this.resource == R.layout.item_chapter_acitivity_chapter_detail){
 
-            TextView txtChapterNameNumber = view.findViewById(R.id.txtChapterNameNumber);
-            TextView txtChapterContent = view.findViewById(R.id.txtChapterContent);
-
-            txtChapterNameNumber.setText("Chương "+ model.getNumberChapter() + ": " + model.getName());
-            txtChapterContent.setText(model.getContent());
+            holderItemChap.txtChapterNameNumber.setText("Chương "+ model.getNumberChapter() + ": " + model.getName());
+            holderItemChap.txtChapterContent.setText(model.getContent());
 
         } /*else if(this.resource == R.layout.admin_item_list_chater){
             TextView name = view.findViewById(R.id.txtAdminChapterNameItem);
