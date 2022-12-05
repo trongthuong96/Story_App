@@ -21,11 +21,15 @@ import androidx.core.widget.ListViewAutoScrollHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lib.interfaceRepository.Methods;
+import com.example.lib.model.CategoryModel;
 import com.example.lib.model.CommentModel;
 import com.example.story_app.CommentActivity;
 import com.example.story_app.R;
 import com.example.story_app.Session.PositionSession;
 import com.example.story_app.Session.SessionUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +38,7 @@ import retrofit2.Response;
 public class CommentAdapter extends ArrayAdapter<CommentModel> {
     Activity context;
     int resource;
+    private List<CommentModel> modelList = new ArrayList<>();
 
     public CommentAdapter(@NonNull Context context, int resource) {
         super(context, resource);
@@ -85,7 +90,7 @@ public class CommentAdapter extends ArrayAdapter<CommentModel> {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     if(response.code() == 200){
-
+                                        notifyDataSetChanged();
                                     }
                                 }
 

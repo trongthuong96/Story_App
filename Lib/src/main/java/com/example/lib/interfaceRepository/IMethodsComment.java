@@ -9,4 +9,5 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 
 public interface IMethodsComment {
+    boolean isDeleteComment();
 }

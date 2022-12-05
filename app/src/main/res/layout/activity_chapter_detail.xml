@@ -40,4 +40,46 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="bottom"
+        android:layout_marginBottom="10dp"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBackChap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/roundedbuttonback"
+            android:textColor="@color/white"
+            android:text="Ch.Trước" />
+
+        <Button
+            android:id="@+id/btnListChap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#9D0620"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/white"
+            android:text="DS.Chương" />
+
+        <Button
+            android:id="@+id/btnNextChap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@drawable/roundedbuttonnext"
+            android:text="Ch.Sau" />
+
+
+    </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

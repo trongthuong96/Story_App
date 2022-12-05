@@ -16,11 +16,13 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.lib.interfaceRepository.IMethodsComment;
 import com.example.lib.interfaceRepository.Methods;
 import com.example.lib.model.ChapterModel;
 import com.example.lib.model.CommentModel;
@@ -42,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends AppCompatActivity{
     private StoryModel model;
     private ActivityCommentBinding binding;
 
@@ -53,6 +55,7 @@ public class CommentActivity extends AppCompatActivity {
     ListView lsvComment;
     EditText edtContentComment;
     CommentModel commentModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,8 @@ public class CommentActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(this, R.layout.item_comment);
         lsvComment = binding.lsvComment;
         edtContentComment = binding.edtComment;
+
+
     }
 
     @Override

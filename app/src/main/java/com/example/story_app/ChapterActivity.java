@@ -32,7 +32,7 @@ public class ChapterActivity extends AppCompatActivity {
 
     //Chapter
     ChapterAdapter chapterAdapter;
-    List<ChapterModel> list = new ArrayList<>();
+    ArrayList<ChapterModel> list = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
     ListView lsvChapter;
     TextView txtNameStory_ItemChap;
@@ -72,7 +72,6 @@ public class ChapterActivity extends AppCompatActivity {
                 Intent intent = new Intent(ChapterActivity.this, ChapterDetailActivity.class);
                 intent.putExtra("model", model);
 
-
                 //save offline
                 sharedPref = getSharedPreferences("ChapterSave", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -92,7 +91,7 @@ public class ChapterActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<ChapterModel>>() {
             @Override
             public void onResponse(Call<List<ChapterModel>> call, Response<List<ChapterModel>> response) {
-                list = response.body();
+                list = (ArrayList<ChapterModel>) response.body();
                 for(ChapterModel i: list){
                     chapterAdapter.add(i);
                 }
